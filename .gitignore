@@ -1,0 +1,12 @@
+.git
+.settings
+bin/
+.idea/
+.metadata/*
+/out/*
+/target/*
+/target/
+*.class
+/lib/
+/server/
+/.externalToolBuilders/

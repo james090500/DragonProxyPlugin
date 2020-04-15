@@ -1,0 +1,5 @@
+name: DragonProxyPlugin
+main: com.james090500.Main
+depends: []
+version: 1.0
+authors: [james090500]
