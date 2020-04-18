@@ -15,6 +15,7 @@ import net.md_5.bungee.api.event.PreLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.event.EventPriority;
 
 public class Main extends Plugin implements Listener {
 	
@@ -23,7 +24,7 @@ public class Main extends Plugin implements Listener {
 		getProxy().getPluginManager().registerListener(this, this);
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void preLogin(PreLoginEvent event) {
 		//Check player is logging in through DragonProxy
 		String playerIp = ((InetSocketAddress) event.getConnection().getSocketAddress()).getAddress().toString().replace("/", "");
