@@ -33,11 +33,14 @@ public class Main extends Plugin implements Listener {
 			event.getConnection().setOnlineMode(false);
 			
 			//See if we can get a uuid for the bedrock player (useful for allowing players to continue using their java account)
-			//Security risk as you can change gamer tag :/
+			//Security risk if gamer tags is already taken.
 			String uuid = getUUID(event.getConnection().getName());					
 			if(uuid != null) {
 				UUID finalUUID = UUID.fromString(uuid.replaceFirst("(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)", "$1-$2-$3-$4-$5"));
 				event.getConnection().setUniqueId(finalUUID);
+			} else {
+				UUID dummyUUID = UUID.nameUUIDFromBytes(event.getConnection().getName().getBytes());
+				event.getConnection().setUniqueId(dummyUUID);
 			}
 		}		
 	}
