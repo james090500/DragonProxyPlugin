@@ -1,5 +1,13 @@
 package com.james090500;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import net.md_5.bungee.api.event.PreLoginEvent;
+import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.event.EventPriority;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -7,15 +15,6 @@ import java.net.InetSocketAddress;
 import java.net.URL;
 import java.util.UUID;
 import java.util.logging.Level;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import net.md_5.bungee.api.event.PreLoginEvent;
-import net.md_5.bungee.api.plugin.Listener;
-import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.event.EventHandler;
-import net.md_5.bungee.event.EventPriority;
 
 public class Main extends Plugin implements Listener {
 	
@@ -35,14 +34,15 @@ public class Main extends Plugin implements Listener {
 			
 			//See if we can get a uuid for the bedrock player (useful for allowing players to continue using their java account)
 			//Security risk if gamer tags is already taken.
-			String uuid = getUUID(event.getConnection().getName());					
-			if(uuid != null) {
-				UUID finalUUID = UUID.fromString(uuid.replaceFirst("(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)", "$1-$2-$3-$4-$5"));
-				event.getConnection().setUniqueId(finalUUID);
+			String uuid = getUUID(event.getConnection().getName());
+			UUID finalUUID;
+			if (uuid != null) {
+				finalUUID = UUID.fromString(uuid.replaceFirst("(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)", "$1-$2-$3-$4-$5"));
 			} else {
-				UUID dummyUUID = UUID.nameUUIDFromBytes(event.getConnection().getName().getBytes());
-				event.getConnection().setUniqueId(dummyUUID);
+				finalUUID = UUID.nameUUIDFromBytes(event.getConnection().getName().getBytes());
 			}
+
+			event.getConnection().setUniqueId(finalUUID);
 		}		
 	}
 	
